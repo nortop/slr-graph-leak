@@ -2,6 +2,7 @@
 Detailed Study of Evaluation Bias in Graph-based APT Detection: A Systematic Literature Review on Data Leakage and Sampling
 
 - # EB-GAD-SLR: Evaluation Bias in Graph-based APT Detection - Systematic Literature Review
+- Author : Norrakith Srisumrith
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.xxxxxxx.svg)](https://doi.org/10.5281/zenodo.xxxxxxx)
@@ -20,6 +21,9 @@ This systematic review analyzes evaluation practices in security machine learnin
 
 ## 📁 Repository Structure
 slr-graph-leak/
+
 ├── pdfs/ # Raw and processed data from 268 papers
+
 ├── figures/ # Supplementary documentation and interactive figures
+
 └── results/ # Working excels
