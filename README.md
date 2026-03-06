@@ -19,11 +19,6 @@ This systematic review analyzes evaluation practices in security machine learnin
 - Entity decontamination (95.8% unreported)
 - Reporting transparency for splits (62.9%) and sampling (70.0%)
 
-## 📁 Repository Structure
-slr-graph-leak/
-
-├── pdfs/ # Raw and processed data from 268 papers
-
-├── figures/ # Supplementary documentation and interactive figures
-
-└── results/ # Working excels
+## 📁 Supplementary Material
+Main Table S1: Full list of 268 included studies with extracted metadata and risk-of-bias assessments.
+https://nortop.github.io/slr-graph-leak/slr_phase5_6.html
