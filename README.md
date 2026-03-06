@@ -1,0 +1,25 @@
+# slr-graph-leak
+Detailed Study of Evaluation Bias in Graph-based APT Detection: A Systematic Literature Review on Data Leakage and Sampling
+
+- # EB-GAD-SLR: Evaluation Bias in Graph-based APT Detection - Systematic Literature Review
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.xxxxxxx.svg)](https://doi.org/10.5281/zenodo.xxxxxxx)
+
+This repository contains the supplementary materials for the systematic literature review:
+
+> **"Evaluation Bias in Graph-Based APT Detection: A PRISMA 2020 Systematic Review on Leakage and Sampling"**
+
+## 📋 Overview
+
+This systematic review analyzes evaluation practices in security machine learning, with a focus on graph-based APT detection. We examine 268 studies and quantify the prevalence of:
+- Data leakage controls (88.4% unreported)
+- Temporal evaluation protocols (91.5% unreported)
+- Entity decontamination (95.8% unreported)
+- Reporting transparency for splits (62.9%) and sampling (70.0%)
+
+## 📁 Repository Structure
+slr-graph-leak/
+├── pdfs/ # Raw and processed data from 268 papers
+├── figures/ # Supplementary documentation and interactive figures
+└── results/ # Working excels
