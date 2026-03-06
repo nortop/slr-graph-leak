@@ -3,105 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SLR: Evaluation Bias in Graph-Based APT Detection</title>
+    <title>SLR: Evaluation Bias in Graph-Based APT Detection (N=268)</title>
     <style>
         * {
             box-sizing: border-box;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
         body {
-            background: #f8f9fa;
-            margin: 20px;
-            padding: 0;
-            color: #333;
+            background: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+            color: #1e293b;
         }
         .container {
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 24px;
         }
         h1 {
-            font-size: 24px;
+            font-size: 28px;
             margin-top: 0;
-            margin-bottom: 20px;
-            color: #1a73e8;
-            border-bottom: 2px solid #e0e0e0;
-            padding-bottom: 10px;
+            margin-bottom: 8px;
+            color: #0f172a;
+        }
+        .subtitle {
+            color: #475569;
+            margin-bottom: 24px;
+            font-size: 16px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 16px;
         }
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
             gap: 16px;
-            margin-bottom: 24px;
+            margin-bottom: 28px;
         }
         .stat-card {
-            background: #f1f3f4;
-            border-radius: 10px;
-            padding: 16px;
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 18px 12px;
             text-align: center;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s;
         }
-        .stat-card .value {
-            font-size: 32px;
+        .stat-card:hover {
+            border-color: #94a3b8;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        .stat-value {
+            font-size: 34px;
             font-weight: 700;
-            color: #1a73e8;
+            color: #1e3a8a;
+            line-height: 1.2;
         }
-        .stat-card .label {
-            font-size: 14px;
-            color: #5f6368;
-            margin-top: 4px;
+        .stat-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #64748b;
+            letter-spacing: 0.3px;
         }
         .filters {
             display: flex;
             flex-wrap: wrap;
-            gap: 16px;
-            margin-bottom: 20px;
-            padding: 16px;
-            background: #f1f3f4;
-            border-radius: 8px;
+            gap: 12px 16px;
+            margin-bottom: 24px;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
             align-items: flex-end;
         }
         .filter-group {
             display: flex;
             flex-direction: column;
-            min-width: 150px;
+            min-width: 140px;
         }
         .filter-group label {
             font-size: 12px;
             font-weight: 600;
-            color: #5f6368;
+            color: #475569;
             margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
         .filter-group select, .filter-group input {
-            padding: 8px 10px;
-            border: 1px solid #dadce0;
-            border-radius: 6px;
+            padding: 8px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
             background: white;
             font-size: 14px;
+            transition: 0.2s;
         }
-        .filter-group input {
-            width: 100%;
+        .filter-group select:focus, .filter-group input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
         }
-        button {
-            background: #1a73e8;
+        .btn {
+            background: #1e3a8a;
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
+            padding: 10px 22px;
+            border-radius: 40px;
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: background 0.2s, transform 0.1s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
-        button:hover {
-            background: #1557b0;
+        .btn:hover {
+            background: #2563eb;
+        }
+        .btn-outline {
+            background: white;
+            color: #334155;
+            border: 1px solid #cbd5e1;
+            margin-left: 8px;
+        }
+        .btn-outline:hover {
+            background: #f1f5f9;
+            border-color: #94a3b8;
         }
         .table-wrapper {
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
             overflow-x: auto;
-            border-radius: 8px;
-            border: 1px solid #e0e0e0;
+            background: white;
+            margin-top: 10px;
         }
         table {
             width: 100%;
@@ -109,148 +141,171 @@
             font-size: 14px;
         }
         th {
-            background: #f1f3f4;
-            padding: 12px 8px;
+            background: #f1f5f9;
+            padding: 14px 10px;
             font-weight: 600;
-            color: #3c4043;
+            color: #334155;
             position: sticky;
             top: 0;
             cursor: pointer;
             user-select: none;
             white-space: nowrap;
+            border-bottom: 2px solid #cbd5e1;
         }
-        th.sort-asc::after {
-            content: " ▲";
-            font-size: 12px;
-        }
-        th.sort-desc::after {
-            content: " ▼";
-            font-size: 12px;
-        }
+        th.sort-asc::after { content: " ▲"; font-size: 11px; }
+        th.sort-desc::after { content: " ▼"; font-size: 11px; }
         td {
-            padding: 10px 8px;
-            border-bottom: 1px solid #e0e0e0;
-            vertical-align: top;
+            padding: 12px 10px;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: middle;
         }
-        tr:hover {
-            background: #f8f9fa;
+        tr {
+            cursor: pointer;
+            transition: 0.1s;
         }
-        .risk-high {
-            background-color: #fce8e8;
-            color: #c5221f;
-            font-weight: 600;
-            padding: 4px 8px;
-            border-radius: 20px;
+        tbody tr:hover {
+            background: #f1f5f9;
+        }
+        .badge {
             display: inline-block;
-        }
-        .risk-medium {
-            background-color: #fef7e0;
-            color: #b06000;
-            font-weight: 600;
-            padding: 4px 8px;
-            border-radius: 20px;
-            display: inline-block;
-        }
-        .risk-low {
-            background-color: #e6f4ea;
-            color: #137333;
-            font-weight: 600;
-            padding: 4px 8px;
-            border-radius: 20px;
-            display: inline-block;
-        }
-        .risk-unknown {
-            background-color: #e8eaed;
-            color: #5f6368;
-            font-weight: 600;
-            padding: 4px 8px;
-            border-radius: 20px;
-            display: inline-block;
-        }
-        .badge-yes {
-            background-color: #e6f4ea;
-            color: #137333;
-            padding: 2px 8px;
-            border-radius: 16px;
+            padding: 4px 10px;
+            border-radius: 40px;
             font-size: 12px;
             font-weight: 500;
+            white-space: nowrap;
         }
-        .badge-no {
-            background-color: #fce8e8;
-            color: #c5221f;
-            padding: 2px 8px;
-            border-radius: 16px;
-            font-size: 12px;
-            font-weight: 500;
+        .badge-yes { background: #dcfce7; color: #166534; }
+        .badge-no { background: #fee2e2; color: #991b1b; }
+        .badge-unknown { background: #f1f5f9; color: #475569; }
+        .risk-high { background: #fee2e2; color: #991b1b; font-weight: 600; padding: 4px 10px; border-radius: 40px; display: inline-block; }
+        .risk-medium { background: #fef9c3; color: #854d0e; font-weight: 600; padding: 4px 10px; border-radius: 40px; }
+        .risk-low { background: #dcfce7; color: #166534; font-weight: 600; padding: 4px 10px; border-radius: 40px; }
+        .risk-unknown { background: #f1f5f9; color: #334155; font-weight: 600; padding: 4px 10px; border-radius: 40px; }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(3px);
         }
-        .badge-unknown {
-            background-color: #e8eaed;
-            color: #5f6368;
-            padding: 2px 8px;
-            border-radius: 16px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-        .tooltip {
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px 30px 40px;
+            border-radius: 32px;
+            width: 70%;
+            max-width: 1100px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
             position: relative;
-            display: inline-block;
-            cursor: help;
-            border-bottom: 1px dotted #999;
+            max-height: 80vh;
+            overflow-y: auto;
         }
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 200px;
-            background-color: #333;
-            color: #fff;
-            text-align: left;
-            border-radius: 6px;
-            padding: 8px;
+        .close {
+            color: #94a3b8;
             position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            margin-left: -100px;
-            opacity: 0;
-            transition: opacity 0.3s;
+            top: 25px;
+            right: 30px;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            line-height: 1;
+        }
+        .close:hover {
+            color: #0f172a;
+        }
+        .modal h2 {
+            margin-top: 0;
+            color: #0f172a;
+            font-size: 24px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 15px;
+        }
+        .paper-id {
+            color: #475569;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+        .detail-section {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
+        }
+        .detail-section h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #1e293b;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .key-val {
+            display: flex;
+            flex-wrap: wrap;
+            border-bottom: 1px dashed #d1d5db;
+            padding: 8px 0;
+        }
+        .key {
+            width: 35%;
+            font-weight: 600;
+            color: #334155;
+        }
+        .val {
+            width: 65%;
+            color: #0f172a;
+        }
+        .val ul {
+            margin: 4px 0;
+            padding-left: 20px;
+        }
+        .gap-badge {
+            background: #1e293b;
+            color: white;
+            padding: 2px 10px;
+            border-radius: 20px;
             font-size: 12px;
-            font-weight: normal;
-            white-space: normal;
-        }
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
-        }
-        .footer {
-            margin-top: 20px;
-            font-size: 12px;
-            color: #5f6368;
-            text-align: right;
-        }
-        .clear-filters {
-            background: #e8eaed;
-            color: #3c4043;
             margin-left: 10px;
+        }
+        .footer-info {
+            margin-top: 20px;
+            font-size: 13px;
+            color: #475569;
+            text-align: right;
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>📊 Systematic Literature Review: Evaluation Bias in Graph-Based APT Detection</h1>
-    <p>Data extracted from 268 papers (Phase 5 & 6). Click on column headers to sort. Use filters below to narrow down.</p>
+    <h1>📄 Systematic Review: Evaluation Bias in Graph‑Based APT Detection</h1>
+    <div class="subtitle">PRISMA 2020 · 268 included studies · Click any row for full Phase 5–8 details</div>
 
-    <div class="stats-grid" id="statsContainer"></div>
+    <div class="stats-grid" id="statsContainer">Loading statistics…</div>
 
     <div class="filters">
         <div class="filter-group">
-            <label for="filterYearFrom">Year from</label>
-            <input type="number" id="filterYearFrom" placeholder="e.g., 2020" min="2000" max="2026">
+            <label>Year from</label>
+            <input type="number" id="filterYearFrom" placeholder="2015" min="1990" max="2026">
         </div>
         <div class="filter-group">
-            <label for="filterYearTo">Year to</label>
-            <input type="number" id="filterYearTo" placeholder="e.g., 2026" min="2000" max="2026">
+            <label>Year to</label>
+            <input type="number" id="filterYearTo" placeholder="2026" min="1990" max="2026">
         </div>
         <div class="filter-group">
-            <label for="filterRisk">Risk of Bias</label>
+            <label>Risk of Bias</label>
             <select id="filterRisk">
                 <option value="all">All</option>
                 <option value="High">High</option>
@@ -260,15 +315,15 @@
             </select>
         </div>
         <div class="filter-group">
-            <label for="filterGraph">Graph Used</label>
+            <label>Graph Used</label>
             <select id="filterGraph">
                 <option value="all">All</option>
                 <option value="Yes">Yes</option>
-                <option value="No">No</option>
+                <option value="No">No / Not Reported</option>
             </select>
         </div>
         <div class="filter-group">
-            <label for="filterLeakage">Leakage Control</label>
+            <label>Leakage Control</label>
             <select id="filterLeakage">
                 <option value="all">All</option>
                 <option value="Yes">Yes</option>
@@ -276,7 +331,7 @@
             </select>
         </div>
         <div class="filter-group">
-            <label for="filterTemporal">Temporal Eval</label>
+            <label>Temporal Eval</label>
             <select id="filterTemporal">
                 <option value="all">All</option>
                 <option value="Yes">Yes</option>
@@ -284,16 +339,16 @@
             </select>
         </div>
         <div class="filter-group">
-            <label for="filterEntity">Entity Decontam</label>
+            <label>Entity Decontam</label>
             <select id="filterEntity">
                 <option value="all">All</option>
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
             </select>
         </div>
-        <div style="display: flex; align-items: center;">
-            <button id="applyFilters">Apply Filters</button>
-            <button id="clearFilters" class="clear-filters">Clear</button>
+        <div style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+            <button class="btn" id="applyFilters">Apply</button>
+            <button class="btn btn-outline" id="clearFilters">Clear</button>
         </div>
     </div>
 
@@ -306,2044 +361,269 @@
                     <th data-sort="year">Year</th>
                     <th data-sort="venue">Venue</th>
                     <th data-sort="domain">Domain</th>
-                    <th data-sort="task">Task Type</th>
+                    <th data-sort="task">Task</th>
                     <th data-sort="graph">Graph</th>
-                    <th data-sort="leakage">Leakage Control</th>
-                    <th data-sort="temporal">Temporal Eval</th>
-                    <th data-sort="entity">Entity Decontam</th>
-                    <th data-sort="split">Split Reported</th>
-                    <th data-sort="sampling">Sampling Reported</th>
+                    <th data-sort="leakage">Leakage</th>
+                    <th data-sort="temporal">Temporal</th>
+                    <th data-sort="entity">Entity</th>
+                    <th data-sort="split">Split</th>
+                    <th data-sort="sampling">Sampling</th>
                     <th data-sort="risk">Risk</th>
                 </tr>
             </thead>
             <tbody id="tableBody">
-                <!-- filled by JS -->
+                <tr><td colspan="13" style="text-align:center; padding:40px;">⏳ Loading data from slr_extraction_results.json …</td></tr>
             </tbody>
         </table>
     </div>
-    <div class="footer">
-        Total papers: <span id="totalCount">268</span> | Generated from slr_extraction_results.json
+    <div class="footer-info">
+        <span id="displayCount">0</span> / 268 papers shown
+    </div>
+</div>
+
+<!-- Modal for paper details -->
+<div id="paperModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeModalBtn">&times;</span>
+        <h2 id="modalTitle">Paper Title</h2>
+        <div class="paper-id" id="modalPaperId">ID</div>
+
+        <div class="detail-section">
+            <h3>📋 Phase 5 – Extraction (selected)</h3>
+            <div class="grid-2col">
+                <div>
+                    <div class="key-val"><span class="key">Security Domain</span><span class="val" id="modalDomain"></span></div>
+                    <div class="key-val"><span class="key">Task Type</span><span class="val" id="modalTask"></span></div>
+                    <div class="key-val"><span class="key">Threat Model</span><span class="val" id="modalThreat"></span></div>
+                    <div class="key-val"><span class="key">Graph Used</span><span class="val" id="modalGraph"></span></div>
+                    <div class="key-val"><span class="key">Graph Type</span><span class="val" id="modalGraphType"></span></div>
+                </div>
+                <div>
+                    <div class="key-val"><span class="key">Dynamics</span><span class="val" id="modalDynamics"></span></div>
+                    <div class="key-val"><span class="key">Heterogeneous</span><span class="val" id="modalHetero"></span></div>
+                    <div class="key-val"><span class="key">Learning Setup</span><span class="val" id="modalLearning"></span></div>
+                    <div class="key-val"><span class="key">Inductive/Transductive</span><span class="val" id="modalInductive"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="detail-section">
+            <h3>🔬 Phase 6 – Quantitative Coding</h3>
+            <div class="grid-2col">
+                <div>
+                    <div class="key-val"><span class="key">Leakage Control</span><span class="val" id="modalLeakage"></span></div>
+                    <div class="key-val"><span class="key">Temporal Evaluation</span><span class="val" id="modalTemporal"></span></div>
+                    <div class="key-val"><span class="key">Entity Decontamination</span><span class="val" id="modalEntity"></span></div>
+                    <div class="key-val"><span class="key">Split Details</span><span class="val" id="modalSplit"></span></div>
+                </div>
+                <div>
+                    <div class="key-val"><span class="key">Sampling Details</span><span class="val" id="modalSampling"></span></div>
+                    <div class="key-val"><span class="key">Risk of Bias</span><span class="val" id="modalRisk"></span></div>
+                    <div class="key-val"><span class="key">Rationale</span><span class="val" id="modalRationale"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="detail-section">
+            <h3>📈 Phase 7 – Key Findings</h3>
+            <ul id="modalFindings" style="margin:0; padding-left:20px;">
+                <li>Finding 1</li>
+                <li>Finding 2</li>
+                <li>Finding 3</li>
+            </ul>
+            <div style="margin-top:12px;"><strong>Evaluation observation:</strong> <span id="modalEvalObs"></span></div>
+        </div>
+
+        <div class="detail-section">
+            <h3>🧩 Phase 8 – Gaps & Future Work</h3>
+            <div><strong>Gap statements:</strong> <span id="modalGaps"></span></div>
+            <div style="margin-top:8px;"><strong>Future work:</strong> <span id="modalFuture"></span></div>
+            <div style="margin-top:8px;"><strong>Supports thesis:</strong> <span id="modalThesis"></span></div>
+        </div>
+
+        <div style="font-size:13px; color:#64748b; border-top:1px solid #e2e8f0; padding-top:12px; margin-top:10px;">
+            <span id="modalFilename"></span>
+        </div>
     </div>
 </div>
 
 <script>
-// Embedded JSON data (first 268 papers from your file – adjust if needed)
-const papersData = [
-    {
-        "Paper_ID": "Hosmer_2018",
-        "Title": "Defending IoT Infrastructures with the Raspberry Pi: Monitoring and Detecting Nefarious Behavior in Real Time",
-        "Year": "2018",
-        "Venue": "Apress",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "Not Reported"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Sen_2025_ECCE",
-        "Title": "Intrusion Detection System on IoT Devices via Federated Learning",
-        "Year": "2025",
-        "Venue": "ECCE",
-        "Phase5_Extraction": {
-            "Security_Domain": "intrusion detection",
-            "Task_Type": "classification",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "ICICT2023-Siddhartha",
-        "Title": "Enhancing Home Security: user Authentication Techniques for Home Automation",
-        "Year": "2023",
-        "Venue": "ICICT",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "sensors-23-8407",
-        "Title": "A Lightweight Unsupervised Intrusion Detection Model Based on Variational Auto-Encoder",
-        "Year": "2023",
-        "Venue": "Sensors",
-        "Phase5_Extraction": {
-            "Security_Domain": "Industrial Control Systems (ICS)",
-            "Task_Type": "anomaly detection",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Yes",
-            "Has_Temporal_Evaluation": "Yes",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "Yes",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "Low"
-        }
-    },
-    {
-        "Paper_ID": "Mansour et al. (2021)",
-        "Title": "An Optimal Big Data Analytics with Concept Drift Detection on High-Dimensional Streaming Data",
-        "Year": "2021",
-        "Venue": "Computers, Materials & Continua",
-        "Phase5_Extraction": {
-            "Security_Domain": "intrusion detection",
-            "Task_Type": "sequence modeling",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "Yes",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Chapter 11",
-        "Title": "Security and Privacy Issues in RIS-Based Wireless Communication Systems",
-        "Year": "2025",
-        "Venue": "Book Chapter",
-        "Phase5_Extraction": {
-            "Security_Domain": "Other",
-            "Task_Type": "Other",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Not Applicable",
-            "Has_Temporal_Evaluation": "Not Applicable",
-            "Has_Entity_Decontamination": "Not Applicable",
-            "Reports_Split_Details": "Not Applicable",
-            "Reports_Sampling_Details": "Not Applicable",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Xu_2026",
-        "Title": "Robust and Privacy-Aware Network Flow Watermarking for Digital Twin Communications in 5G/6G Edge Environments",
-        "Year": "2026",
-        "Venue": "IEEE Communications Standards Magazine",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "classification",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "DroidPortrait_2020",
-        "Title": "DroidPortrait: Android Malware Portrait Construction Based on Multidimensional Behavior Analysis",
-        "Year": "2020",
-        "Venue": "Applied Sciences",
-        "Phase5_Extraction": {
-            "Security_Domain": "malware",
-            "Task_Type": "classification",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Yes",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Gaidarski_2024",
-        "Title": "Management approaches and application areas of information security in organizations",
-        "Year": "2024",
-        "Venue": "ETR",
-        "Phase5_Extraction": {
-            "Security_Domain": "benign security dataset",
-            "Task_Type": "other",
-            "Graph_Used": "Not Reported"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Unknown",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Bai et al. (2018)",
-        "Title": "Towards Model Checking Android Applications",
-        "Year": "2018",
-        "Venue": "IEEE TSE",
-        "Phase5_Extraction": {
-            "Security_Domain": "malware",
-            "Task_Type": "other",
-            "Graph_Used": "Yes"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Otoom et al. (2023)",
-        "Title": "Scheduling algorithms for data-protection based on security-classification constraints to data-dissemination",
-        "Year": "2023",
-        "Venue": "PeerJ CS",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "10.1109/ACCESS.2024.3363640",
-        "Title": "How Can Credit Supervision Mechanism Improve Security Crowdsourcing Ecosystem Governance: An Evolutionary Game Theory Perspective",
-        "Year": "2023",
-        "Venue": "IEEE Access",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Unknown",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Saveleva_2025_Photogrammetry",
-        "Title": "Performance Comparison of Various Software Tools in Photogrammetry-Based Digitization and Visualization of Energy Infrastructure Objects",
-        "Year": "2025",
-        "Venue": "Scientific Visualization",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "Not Reported"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Lee2025_LightweightFL",
-        "Title": "Lightweight federated learning-based intrusion detection system for industrial internet of things",
-        "Year": "2025",
-        "Venue": "ICT Express",
-        "Phase5_Extraction": {
-            "Security_Domain": "APT",
-            "Task_Type": "classification",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "Yes",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "SentinelGuard_2024",
-        "Title": "SentinelGuard: An Integration of Intelligent Text Data Loss Prevention Mechanism for Organizational Security (I-ITDLP)",
-        "Year": "2024",
-        "Venue": "ICSTEM",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "classification",
-            "Graph_Used": "Not Reported"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Wu_2025_ITC",
-        "Title": "QuEST: Quantitative Entropy based Security and Trojan Detection Framework for Confidentiality Verification",
-        "Year": "2025",
-        "Venue": "ITC",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "Yes"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Unknown",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Yuninda_2022_Telemedicine_Security",
-        "Title": "Patient Data Security in Telemedicine Services from Data Misuse in Health Practice",
-        "Year": "2022",
-        "Venue": "ICCED",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "Not Reported"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Unknown",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Thapliyal_2023_Healthcare_Big_Data",
-        "Title": "Security Threats in Healthcare Big Data: A Comparative Study",
-        "Year": "2023",
-        "Venue": "CISES",
-        "Phase5_Extraction": {
-            "Security_Domain": "benign security dataset",
-            "Task_Type": "anomaly detection",
-            "Graph_Used": "Not Reported"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Unknown",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Reimann_2021",
-        "Title": "QFlow: Quantitative Information Flow for Security-Aware Hardware Design in Verilog",
-        "Year": "2021",
-        "Venue": "ICCD",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "Yes"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "Yes",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Desai et al. (2022)",
-        "Title": "Background knowledge attacks in privacy-preserving data publishing models",
-        "Year": "2022",
-        "Venue": "Computers & Security",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "Yes"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Yes",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Vutukuru2025",
-        "Title": "QryptaShield: Quantum-Inspired Feature Selection and RL-Calibrated Federated Learning for Low-False-Positive IoT Intrusion Detection",
-        "Year": "2025",
-        "Venue": "SSRG IJECE",
-        "Phase5_Extraction": {
-            "Security_Domain": "IoT Security",
-            "Task_Type": "intrusion detection",
-            "Graph_Used": "Yes"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "Yes",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Gaikwad_2022_BYOD_Blockchain",
-        "Title": "Security Challenges and Cyber Forensics For IoT Driven BYOD Systems",
-        "Year": "2022",
-        "Venue": "I2CT",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Li_2023_uThingNet",
-        "Title": "µThingNet: Leveraging Fine-Grained Power Analysis towards A Robust Zero-Day Defender",
-        "Year": "2023",
-        "Venue": "SOCC",
-        "Phase5_Extraction": {
-            "Security_Domain": "IoT malware",
-            "Task_Type": "malware detection",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Yes",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Ali2019_BYOD_Framework",
-        "Title": "BYOD Secured Solution Framework",
-        "Year": "2019",
-        "Venue": "IJEAT",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Shahapurkar2023",
-        "Title": "Concept drift and machine learning model for detecting fraudulent transactions in streaming environment",
-        "Year": "2023",
-        "Venue": "IJECE",
-        "Phase5_Extraction": {
-            "Security_Domain": "fraud",
-            "Task_Type": "classification",
-            "Graph_Used": "Not Reported"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "Yes",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Yes",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Gaharwar_Android_Data_Leakage_IDS",
-        "Title": "Android data leakage and anomaly based Intrusion detection System",
-        "Year": "2019",
-        "Venue": "IEEE",
-        "Phase5_Extraction": {
-            "Security_Domain": "Intrusion Detection",
-            "Task_Type": "Anomaly Detection",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Han_2025_PPATF",
-        "Title": "PPATF: A Privacy-Preserving Adversarial Training Framework to Enhance the Robustness of Lightweight Intrusion Detection Models",
-        "Year": "2025",
-        "Venue": "IEEE Access",
-        "Phase5_Extraction": {
-            "Security_Domain": "intrusion detection",
-            "Task_Type": "classification",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Yes",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "Yes",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Huth2013_GuestEditorial",
-        "Title": "Guest editorial: A brief overview of data leakage and insider threats",
-        "Year": "2013",
-        "Venue": "Information Systems Frontiers",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "Not Reported"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Unknown",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "978-1-6654-5082-9/22/$31.00©2022 IEEE",
-        "Title": "Model to Identify the Profile of Countermeasures for Information Leakage in Financial Organizations",
-        "Year": "2022",
-        "Venue": "EIRCON",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Unknown",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Ruhlander2024",
-        "Title": "On the Security and Privacy Implications of Large Language Models: In-Depth Threat Analysis",
-        "Year": "2024",
-        "Venue": "iThings/GreenCom",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "Not Reported"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Unknown",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Palma2025",
-        "Title": "A Post-Quantum Cryptography Enabled Feature-Level Fusion Framework for Privacy-Preserving Multimodal Biometric Recognition",
-        "Year": "2025",
-        "Venue": "Cryptography",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Yes",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "Yes",
-            "Reports_Split_Details": "Yes",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "Low"
-        }
-    },
-    {
-        "Paper_ID": "Hosseini2025_TrustworthyAI",
-        "Title": "Trustworthy AI for Security Decision-Making in ICSs: Towards Compliance with the EU AI Act",
-        "Year": "2025",
-        "Venue": "ETFA",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "Yes"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "PENG-2025",
-        "Title": "BCTD-ICS: A Blockchain-Aided Framework for Trusted Detection of Industrial Control System Components",
-        "Year": "2025",
-        "Venue": "IEEE IoT Journal",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "Yes"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Pandey_Towards_Automated_Threat_based_Risk_Assessment",
-        "Title": "Towards Automated Threat-based Risk Assessment for Cyber Security in Smarthomes",
-        "Year": "2019",
-        "Venue": "Unknown",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "Not Reported"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Costante2017",
-        "Title": "A white-box anomaly-based framework for database leakage detection",
-        "Year": "2017",
-        "Venue": "JISA",
-        "Phase5_Extraction": {
-            "Security_Domain": "intrusion detection",
-            "Task_Type": "anomaly detection",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Yes",
-            "Has_Temporal_Evaluation": "Yes",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "Yes",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "Medium"
-        }
-    },
-    {
-        "Paper_ID": "Minh Hoang et al. - Network Analytics for Improving Students’ Cybersecurity Awareness",
-        "Title": "Network Analytics for Improving Students’ Cybersecurity Awareness in Online Learning Systems",
-        "Year": "2020",
-        "Venue": "IEEE",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "Yes"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Chen et al. (2023)",
-        "Title": "IP-Tag: Tag-Based Runtime 3PIP Hardware Trojan Detection in SoC Platforms",
-        "Year": "2023",
-        "Venue": "IEEE TCAD",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "Yes"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Unknown",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Thenmozhi_2025",
-        "Title": "A Survey on AI-Enabled Anomaly Detection with Privacy Preservation in Wireless Sensor Healthcare IoT Environment",
-        "Year": "2025",
-        "Venue": "ROMA",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "anomaly detection",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Sugii_2015_Fujitsu",
-        "Title": "Device Management Technology for Preventing Data Leakage",
-        "Year": "2015",
-        "Venue": "Fujitsu",
-        "Phase5_Extraction": {
-            "Security_Domain": "APT",
-            "Task_Type": "other",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Short2014",
-        "Title": "Android Smartphone Third Party Advertising Library Data Leak Analysis",
-        "Year": "2014",
-        "Venue": "MASS",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Kumaraswamy2025_SecureBlockchainSVM",
-        "Title": "A Secure Blockchain Framework using Stacked SVM-RF with Advanced Encryption Standard – Galois/Counter Mode",
-        "Year": "2025",
-        "Venue": "IACIS",
-        "Phase5_Extraction": {
-            "Security_Domain": "intrusion detection",
-            "Task_Type": "classification",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "Yes",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Shishodia2022_DLP",
-        "Title": "Data Leakage Prevention System for Internal Security",
-        "Year": "2022",
-        "Venue": "INCOFT",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Unknown",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Myrzashova_2025_Safeguarding_Patient_Data",
-        "Title": "Safeguarding Patient Data-Sharing: Blockchain-Enabled Federated Learning in Medical Diagnostics",
-        "Year": "2025",
-        "Venue": "IEEE TSUSC",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "classification",
-            "Graph_Used": "Not Reported"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Yes",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Alzubaidi2021",
-        "Title": "Measuring the level of cyber-security awareness for cybercrime in Saudi Arabia",
-        "Year": "2021",
-        "Venue": "Heliyon",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Obarafor_2024_ICCR",
-        "Title": "Feed-forward ANN with Random Forest Technique for Identifying Malicious Internet of Things Network Intrusion",
-        "Year": "2024",
-        "Venue": "ICCR",
-        "Phase5_Extraction": {
-            "Security_Domain": "intrusion detection",
-            "Task_Type": "intrusion detection",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Yes",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Thabit2022",
-        "Title": "Trust management and data protection for online social networks",
-        "Year": "2022",
-        "Venue": "IET Comms",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "anomaly detection",
-            "Graph_Used": "Yes"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Schulze_2017",
-        "Title": "Combating Data Leakage Trojans in Sequential Circuits Through Randomized Encoding",
-        "Year": "2017",
-        "Venue": "DASC",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "Not Reported"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Unknown",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Damljanovic_2021_DDECS",
-        "Title": "A Benchmark Suite of RT-level Hardware Trojans for Pipelined Microprocessor Cores",
-        "Year": "2021",
-        "Venue": "DDECS",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "Not Reported"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Unknown",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Zhao_et_al_2023",
-        "Title": "How Can Credit Supervision Mechanism Improve Security Crowdsourcing Ecosystem Governance: An Evolutionary Game Theory Perspective",
-        "Year": "2023",
-        "Venue": "IEEE Access",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Unknown",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "D’Agostino et al. 2021",
-        "Title": "Toward Pinpointing Data Leakage from Advanced Persistent Threats",
-        "Year": "2021",
-        "Venue": "BigDataSecurity",
-        "Phase5_Extraction": {
-            "Security_Domain": "APT",
-            "Task_Type": "other",
-            "Graph_Used": "Not Reported"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Yes",
-            "Has_Temporal_Evaluation": "Yes",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Yes",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "Low"
-        }
-    },
-    {
-        "Paper_ID": "Koch2010",
-        "Title": "User Identification in Encrypted Network Communications",
-        "Year": "2010",
-        "Venue": "CNSM",
-        "Phase5_Extraction": {
-            "Security_Domain": "intrusion detection",
-            "Task_Type": "classification",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Rekha_2024",
-        "Title": "Determining Intrusion Attacks Against Online Applications Using Cloud-Based Data Security",
-        "Year": "2024",
-        "Venue": "EAI",
-        "Phase5_Extraction": {
-            "Security_Domain": "intrusion detection",
-            "Task_Type": "other",
-            "Graph_Used": "Not Reported"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Schnepf2017",
-        "Title": "Automated Verification of Security Chains in Software-Defined Networks with Synaptic",
-        "Year": "2017",
-        "Venue": "NetSoft",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "Yes"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Unknown",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Aftabjahani_2021_CAD_Hardware_Security",
-        "Title": "Special Session: CAD for Hardware Security - Automation is Key to Adoption of Solutions",
-        "Year": "2021",
-        "Venue": "VTS",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Unknown",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Shen et al. 2024",
-        "Title": "SGD3QN: Joint Stochastic Games and Dueling Double Deep Q-Networks for Defending Malware Propagation in Edge Intelligence-Enabled Internet of Things",
-        "Year": "2024",
-        "Venue": "IEEE TIFS",
-        "Phase5_Extraction": {
-            "Security_Domain": "malware",
-            "Task_Type": "other",
-            "Graph_Used": "Not Reported"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Han et al. (2024)",
-        "Title": "An online ensemble classification algorithm for multi-class imbalanced data stream",
-        "Year": "2024",
-        "Venue": "KAIS",
-        "Phase5_Extraction": {
-            "Security_Domain": "intrusion detection",
-            "Task_Type": "classification",
-            "Graph_Used": "Not Reported"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "Yes",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Yes",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "Low"
-        }
-    },
-    {
-        "Paper_ID": "10.1109/ICIMIA67127.2025.11200972",
-        "Title": "An Intelligent Data Leakage Prevention in Cloud Computing using Golden Jackal Optimization",
-        "Year": "2025",
-        "Venue": "ICIMIA",
-        "Phase5_Extraction": {
-            "Security_Domain": "intrusion detection",
-            "Task_Type": "classification",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "Yes",
-            "Reports_Split_Details": "Yes",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "NoiseHopper_HOST2024",
-        "Title": "NoiseHopper: Emission Hopping Air-Gap Covert Side Channel with Lower Probability of Detection",
-        "Year": "2024",
-        "Venue": "HOST",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Unknown",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Kober2022",
-        "Title": "Sensitive and Personal Data: What Exactly Are You Talking About?",
-        "Year": "2022",
-        "Venue": "Unknown",
-        "Phase5_Extraction": {
-            "Security_Domain": "malware",
-            "Task_Type": "other",
-            "Graph_Used": "Not Reported"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Unknown",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Yin et al. (2021)",
-        "Title": "A Real-time Dynamic Concept Adaptive Learning Algorithm for Exploitability Prediction",
-        "Year": "2021",
-        "Venue": "Neurocomputing",
-        "Phase5_Extraction": {
-            "Security_Domain": "benign security dataset",
-            "Task_Type": "classification",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Yes",
-            "Has_Temporal_Evaluation": "Yes",
-            "Has_Entity_Decontamination": "Not Reported",
-            "Reports_Split_Details": "Yes",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "Low"
-        }
-    },
-    {
-        "Paper_ID": "Yu_Shen_2021",
-        "Title": "The Relationship between Online Political Participation and Privacy Protection: Evidence from 10 Asian Societies of Different Levels of Cybersecurity",
-        "Year": "2021",
-        "Venue": "Behaviour & IT",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "Not Reported"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Unknown",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Priya et al. (2023)",
-        "Title": "Deep learning framework for handling concept drift and class imbalanced complex decision-making on streaming data",
-        "Year": "2023",
-        "Venue": "Complex & Intelligent Systems",
-        "Phase5_Extraction": {
-            "Security_Domain": "intrusion detection",
-            "Task_Type": "classification",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Yes",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "FEXGBIDS: Federated XGBoost-Based Intrusion Detection System for In-Vehicle Network",
-        "Title": "FEXGBIDS: Federated XGBoost-Based Intrusion Detection System for In-Vehicle Network",
-        "Year": "2025",
-        "Venue": "IEEE Access",
-        "Phase5_Extraction": {
-            "Security_Domain": "intrusion detection",
-            "Task_Type": "classification",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "Yes",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Phan_2017_eddLeak",
-        "Title": "eddLeak: Enhancing Precision of Detecting Inter-app Data Leakage in Android Applications",
-        "Year": "2017",
-        "Venue": "ICCSN",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "Yes"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "EL_HADDOUTI_2023",
-        "Title": "Enhancing Mobile Security: A Systematic Review of AI and Blockchain Integration Strategies for Effective Analysis",
-        "Year": "2023",
-        "Venue": "3ICT",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Unknown",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Zhang_2025_Mobile_network_intelligent_recommendation",
-        "Title": "Mobile network intelligent recommendation based on data mining and network security application in college student employment recommendation system",
-        "Year": "2025",
-        "Venue": "IJSAEM",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Wang et al. (2018)",
-        "Title": "Security-Driven Task Scheduling for Multiprocessor System-on-Chips with Performance Constraints",
-        "Year": "2018",
-        "Venue": "ISVLSI",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "Yes"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "KhaleghiMoghaddam2020",
-        "Title": "Exploring data leakage in encrypted payload using supervised machine learning",
-        "Year": "2020",
-        "Venue": "ARES",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "classification",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "Yes",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Khan_2020_CacheOut",
-        "Title": "Cache-Out: Leaking Cache Memory Using Hardware Trojan",
-        "Year": "2020",
-        "Venue": "IEEE TVLSI",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Unknown",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Wu_2023_ISCTech",
-        "Title": "An attack-aware shipping enterprise cybersecurity framework based on deep learning",
-        "Year": "2023",
-        "Venue": "ISCTech",
-        "Phase5_Extraction": {
-            "Security_Domain": "intrusion detection",
-            "Task_Type": "sequence modeling",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Alneyadi2016",
-        "Title": "A survey on data leakage prevention systems",
-        "Year": "2016",
-        "Venue": "JNCA",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "Yes"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Unknown",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Bhardwaj et al. (2024)",
-        "Title": "Risks for Conversational AI Security",
-        "Year": "2024",
-        "Venue": "Book Chapter",
-        "Phase5_Extraction": {
-            "Security_Domain": "Conversational AI",
-            "Task_Type": "anomaly detection",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Kynigos_2016_Utilizing_Cloud_Hijacked_Images",
-        "Title": "Utilizing the Cloud to Store Hijacked Camera Images",
-        "Year": "2016",
-        "Venue": "HICSS",
-        "Phase5_Extraction": {
-            "Security_Domain": "malware",
-            "Task_Type": "other",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Shahapurkar2023",
-        "Title": "Concept drift and machine learning model for detecting fraudulent transactions in streaming environment",
-        "Year": "2023",
-        "Venue": "IJECE",
-        "Phase5_Extraction": {
-            "Security_Domain": "fraud",
-            "Task_Type": "classification",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Yes",
-            "Has_Temporal_Evaluation": "Yes",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "Yes",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "Medium"
-        }
-    },
-    {
-        "Paper_ID": "Zhao_et_al_2023",
-        "Title": "How Can Credit Supervision Mechanism Improve Security Crowdsourcing Ecosystem Governance: An Evolutionary Game Theory Perspective",
-        "Year": "2023",
-        "Venue": "IEEE Access",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Unknown",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "D’Agostino et al. 2021",
-        "Title": "Toward Pinpointing Data Leakage from Advanced Persistent Threats",
-        "Year": "2021",
-        "Venue": "BigDataSecurity",
-        "Phase5_Extraction": {
-            "Security_Domain": "APT",
-            "Task_Type": "other",
-            "Graph_Used": "Not Reported"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Yes",
-            "Has_Temporal_Evaluation": "Yes",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Yes",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "Low"
-        }
-    },
-    {
-        "Paper_ID": "Koch2010",
-        "Title": "User Identification in Encrypted Network Communications",
-        "Year": "2010",
-        "Venue": "CNSM",
-        "Phase5_Extraction": {
-            "Security_Domain": "intrusion detection",
-            "Task_Type": "classification",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Rekha_2024",
-        "Title": "Determining Intrusion Attacks Against Online Applications Using Cloud-Based Data Security",
-        "Year": "2024",
-        "Venue": "EAI",
-        "Phase5_Extraction": {
-            "Security_Domain": "intrusion detection",
-            "Task_Type": "other",
-            "Graph_Used": "Not Reported"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Schnepf2017",
-        "Title": "Automated Verification of Security Chains in Software-Defined Networks with Synaptic",
-        "Year": "2017",
-        "Venue": "NetSoft",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "Yes"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Unknown",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Aftabjahani_2021_CAD_Hardware_Security",
-        "Title": "Special Session: CAD for Hardware Security - Automation is Key to Adoption of Solutions",
-        "Year": "2021",
-        "Venue": "VTS",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Unknown",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Shen et al. 2024",
-        "Title": "SGD3QN: Joint Stochastic Games and Dueling Double Deep Q-Networks for Defending Malware Propagation in Edge Intelligence-Enabled Internet of Things",
-        "Year": "2024",
-        "Venue": "IEEE TIFS",
-        "Phase5_Extraction": {
-            "Security_Domain": "malware",
-            "Task_Type": "other",
-            "Graph_Used": "Not Reported"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Han et al. (2024)",
-        "Title": "An online ensemble classification algorithm for multi-class imbalanced data stream",
-        "Year": "2024",
-        "Venue": "KAIS",
-        "Phase5_Extraction": {
-            "Security_Domain": "intrusion detection",
-            "Task_Type": "classification",
-            "Graph_Used": "Not Reported"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "Yes",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Yes",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "Low"
-        }
-    },
-    {
-        "Paper_ID": "10.1109/ICIMIA67127.2025.11200972",
-        "Title": "An Intelligent Data Leakage Prevention in Cloud Computing using Golden Jackal Optimization",
-        "Year": "2025",
-        "Venue": "ICIMIA",
-        "Phase5_Extraction": {
-            "Security_Domain": "intrusion detection",
-            "Task_Type": "classification",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "Yes",
-            "Reports_Split_Details": "Yes",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "NoiseHopper_HOST2024",
-        "Title": "NoiseHopper: Emission Hopping Air-Gap Covert Side Channel with Lower Probability of Detection",
-        "Year": "2024",
-        "Venue": "HOST",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Unknown",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Kober2022",
-        "Title": "Sensitive and Personal Data: What Exactly Are You Talking About?",
-        "Year": "2022",
-        "Venue": "Unknown",
-        "Phase5_Extraction": {
-            "Security_Domain": "malware",
-            "Task_Type": "other",
-            "Graph_Used": "Not Reported"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Unknown",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Yin et al. (2021)",
-        "Title": "A Real-time Dynamic Concept Adaptive Learning Algorithm for Exploitability Prediction",
-        "Year": "2021",
-        "Venue": "Neurocomputing",
-        "Phase5_Extraction": {
-            "Security_Domain": "benign security dataset",
-            "Task_Type": "classification",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Yes",
-            "Has_Temporal_Evaluation": "Yes",
-            "Has_Entity_Decontamination": "Not Reported",
-            "Reports_Split_Details": "Yes",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "Low"
-        }
-    },
-    {
-        "Paper_ID": "Yu_Shen_2021",
-        "Title": "The Relationship between Online Political Participation and Privacy Protection: Evidence from 10 Asian Societies of Different Levels of Cybersecurity",
-        "Year": "2021",
-        "Venue": "Behaviour & IT",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "Not Reported"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Unknown",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Priya et al. (2023)",
-        "Title": "Deep learning framework for handling concept drift and class imbalanced complex decision-making on streaming data",
-        "Year": "2023",
-        "Venue": "Complex & Intelligent Systems",
-        "Phase5_Extraction": {
-            "Security_Domain": "intrusion detection",
-            "Task_Type": "classification",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Yes",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "FEXGBIDS: Federated XGBoost-Based Intrusion Detection System for In-Vehicle Network",
-        "Title": "FEXGBIDS: Federated XGBoost-Based Intrusion Detection System for In-Vehicle Network",
-        "Year": "2025",
-        "Venue": "IEEE Access",
-        "Phase5_Extraction": {
-            "Security_Domain": "intrusion detection",
-            "Task_Type": "classification",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "Yes",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Phan_2017_eddLeak",
-        "Title": "eddLeak: Enhancing Precision of Detecting Inter-app Data Leakage in Android Applications",
-        "Year": "2017",
-        "Venue": "ICCSN",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "Yes"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "EL_HADDOUTI_2023",
-        "Title": "Enhancing Mobile Security: A Systematic Review of AI and Blockchain Integration Strategies for Effective Analysis",
-        "Year": "2023",
-        "Venue": "3ICT",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Unknown",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Zhang_2025_Mobile_network_intelligent_recommendation",
-        "Title": "Mobile network intelligent recommendation based on data mining and network security application in college student employment recommendation system",
-        "Year": "2025",
-        "Venue": "IJSAEM",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Wang et al. (2018)",
-        "Title": "Security-Driven Task Scheduling for Multiprocessor System-on-Chips with Performance Constraints",
-        "Year": "2018",
-        "Venue": "ISVLSI",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "Yes"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "KhaleghiMoghaddam2020",
-        "Title": "Exploring data leakage in encrypted payload using supervised machine learning",
-        "Year": "2020",
-        "Venue": "ARES",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "classification",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "Yes",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Khan_2020_CacheOut",
-        "Title": "Cache-Out: Leaking Cache Memory Using Hardware Trojan",
-        "Year": "2020",
-        "Venue": "IEEE TVLSI",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Unknown",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Wu_2023_ISCTech",
-        "Title": "An attack-aware shipping enterprise cybersecurity framework based on deep learning",
-        "Year": "2023",
-        "Venue": "ISCTech",
-        "Phase5_Extraction": {
-            "Security_Domain": "intrusion detection",
-            "Task_Type": "sequence modeling",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Alneyadi2016",
-        "Title": "A survey on data leakage prevention systems",
-        "Year": "2016",
-        "Venue": "JNCA",
-        "Phase5_Extraction": {
-            "Security_Domain": "other",
-            "Task_Type": "other",
-            "Graph_Used": "Yes"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Unknown",
-            "Has_Temporal_Evaluation": "Unknown",
-            "Has_Entity_Decontamination": "Unknown",
-            "Reports_Split_Details": "Unknown",
-            "Reports_Sampling_Details": "Unknown",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Bhardwaj et al. (2024)",
-        "Title": "Risks for Conversational AI Security",
-        "Year": "2024",
-        "Venue": "Book Chapter",
-        "Phase5_Extraction": {
-            "Security_Domain": "Conversational AI",
-            "Task_Type": "anomaly detection",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "High"
-        }
-    },
-    {
-        "Paper_ID": "Kynigos_2016_Utilizing_Cloud_Hijacked_Images",
-        "Title": "Utilizing the Cloud to Store Hijacked Camera Images",
-        "Year": "2016",
-        "Venue": "HICSS",
-        "Phase5_Extraction": {
-            "Security_Domain": "malware",
-            "Task_Type": "other",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "No",
-            "Has_Temporal_Evaluation": "No",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "No",
-            "Reports_Sampling_Details": "No",
-            "Risk_of_Evaluation_Bias": "Unknown"
-        }
-    },
-    {
-        "Paper_ID": "Shahapurkar2023",
-        "Title": "Concept drift and machine learning model for detecting fraudulent transactions in streaming environment",
-        "Year": "2023",
-        "Venue": "IJECE",
-        "Phase5_Extraction": {
-            "Security_Domain": "fraud",
-            "Task_Type": "classification",
-            "Graph_Used": "No"
-        },
-        "Phase6_Quant_Coding": {
-            "Has_Explicit_Leakage_Control": "Yes",
-            "Has_Temporal_Evaluation": "Yes",
-            "Has_Entity_Decontamination": "No",
-            "Reports_Split_Details": "Yes",
-            "Reports_Sampling_Details": "Yes",
-            "Risk_of_Evaluation_Bias": "Medium"
-        }
+let allPapers = [];
+let filteredPapers = [];
+
+// Helper: normalize boolean-ish fields
+function normalizeYesNo(val) {
+    if (val === undefined || val === null) return 'Unknown';
+    if (typeof val === 'string') {
+        const lc = val.toLowerCase();
+        if (lc === 'yes' || lc === 'true' || lc === 'reported') return 'Yes';
+        if (lc === 'no' || lc === 'false' || lc === 'not reported' || lc.includes('not')) return 'No';
     }
-];
+    return 'Unknown';
+}
 
-// Ensure we only have 268 papers by slicing if needed (the sample above has fewer, but in real scenario we'd have full data)
-// For this demo, we'll use the provided data (which is less than 268). In practice, you'd embed the full 268.
+// Load JSON via fetch
+fetch('slr_extraction_results.json')
+    .then(response => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.json();
+    })
+    .then(data => {
+        // Take first 268 papers (or if less, all)
+        allPapers = data.slice(0, 268);
+        filteredPapers = [...allPapers];
+        renderStats(allPapers);
+        renderTable(filteredPapers);
+        document.getElementById('displayCount').innerText = filteredPapers.length;
+    })
+    .catch(err => {
+        console.error(err);
+        document.getElementById('tableBody').innerHTML = `<tr><td colspan="13" style="color:#b91c1c; padding:40px; text-align:center;">❌ Failed to load JSON. Make sure slr_extraction_results.json is in the same folder.<br>${err.message}</td></tr>`;
+    });
 
-// Compute stats
-const totalPapers = papersData.length;
-let riskCounts = { High: 0, Medium: 0, Low: 0, Unknown: 0 };
-let graphYes = 0, graphNo = 0;
-let leakageYes = 0, leakageNo = 0, leakageUnknown = 0;
-let temporalYes = 0, temporalNo = 0;
-let entityYes = 0, entityNo = 0;
+// Render stats cards
+function renderStats(papers) {
+    const total = papers.length;
+    let high=0, medium=0, low=0, unknown=0;
+    let graphYes=0, leakageYes=0, temporalYes=0, entityYes=0;
 
-papersData.forEach(p => {
-    const risk = p.Phase6_Quant_Coding.Risk_of_Evaluation_Bias;
-    if (risk === 'High') riskCounts.High++;
-    else if (risk === 'Medium') riskCounts.Medium++;
-    else if (risk === 'Low') riskCounts.Low++;
-    else riskCounts.Unknown++;
+    papers.forEach(p => {
+        const risk = p.Phase6_Quant_Coding?.Risk_of_Evaluation_Bias;
+        if (risk === 'High') high++;
+        else if (risk === 'Medium') medium++;
+        else if (risk === 'Low') low++;
+        else unknown++;
 
-    const graphUsed = p.Phase5_Extraction.Graph_Used;
-    if (graphUsed && graphUsed.toLowerCase().includes('yes')) graphYes++;
-    else if (graphUsed && (graphUsed.toLowerCase().includes('no') || graphUsed === 'Not Reported')) graphNo++;
-    else graphNo++; // fallback
+        if (p.Phase5_Extraction?.Graph_Used?.toLowerCase().includes('yes')) graphYes++;
+        if (p.Phase6_Quant_Coding?.Has_Explicit_Leakage_Control === 'Yes') leakageYes++;
+        if (p.Phase6_Quant_Coding?.Has_Temporal_Evaluation === 'Yes') temporalYes++;
+        if (p.Phase6_Quant_Coding?.Has_Entity_Decontamination === 'Yes') entityYes++;
+    });
 
-    const leakage = p.Phase6_Quant_Coding.Has_Explicit_Leakage_Control;
-    if (leakage === 'Yes') leakageYes++;
-    else if (leakage === 'No') leakageNo++;
-    else leakageUnknown++;
-
-    if (p.Phase6_Quant_Coding.Has_Temporal_Evaluation === 'Yes') temporalYes++;
-    else temporalNo++;
-
-    if (p.Phase6_Quant_Coding.Has_Entity_Decontamination === 'Yes') entityYes++;
-    else entityNo++;
-});
-
-// Render stats
-document.addEventListener('DOMContentLoaded', function() {
-    const stats = document.getElementById('statsContainer');
-    stats.innerHTML = `
-        <div class="stat-card"><span class="value">${totalPapers}</span><span class="label">Total Papers</span></div>
-        <div class="stat-card"><span class="value">${riskCounts.High}</span><span class="label">High Risk</span></div>
-        <div class="stat-card"><span class="value">${riskCounts.Medium}</span><span class="label">Medium Risk</span></div>
-        <div class="stat-card"><span class="value">${riskCounts.Low}</span><span class="label">Low Risk</span></div>
-        <div class="stat-card"><span class="value">${riskCounts.Unknown}</span><span class="label">Unknown Risk</span></div>
-        <div class="stat-card"><span class="value">${graphYes}</span><span class="label">Graph-Based</span></div>
-        <div class="stat-card"><span class="value">${((leakageYes/totalPapers)*100).toFixed(1)}%</span><span class="label">Leakage Control (Yes)</span></div>
+    document.getElementById('statsContainer').innerHTML = `
+        <div class="stat-card"><span class="stat-value">${total}</span><span class="stat-label">Total papers</span></div>
+        <div class="stat-card"><span class="stat-value">${high}</span><span class="stat-label">High risk</span></div>
+        <div class="stat-card"><span class="stat-value">${medium}</span><span class="stat-label">Medium</span></div>
+        <div class="stat-card"><span class="stat-value">${low}</span><span class="stat-label">Low</span></div>
+        <div class="stat-card"><span class="stat-value">${unknown}</span><span class="stat-label">Unknown</span></div>
+        <div class="stat-card"><span class="stat-value">${graphYes}</span><span class="stat-label">Graph‑based</span></div>
+        <div class="stat-card"><span class="stat-value">${leakageYes}</span><span class="stat-label">Leakage control</span></div>
+        <div class="stat-card"><span class="stat-value">${temporalYes}</span><span class="stat-label">Temporal eval</span></div>
     `;
+}
 
-    renderTable(papersData);
-});
-
-// Table rendering and sorting
-let currentSort = { col: 'id', dir: 'asc' };
-let filteredData = [...papersData];
-
-function renderTable(data) {
+// Render table rows
+function renderTable(papers) {
     const tbody = document.getElementById('tableBody');
     tbody.innerHTML = '';
-    data.forEach(p => {
+    if (papers.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="13" style="text-align:center; padding:40px;">No matching papers</td></tr>';
+        return;
+    }
+
+    papers.forEach(p => {
         const row = document.createElement('tr');
-        const risk = p.Phase6_Quant_Coding.Risk_of_Evaluation_Bias;
-        const riskClass = risk === 'High' ? 'risk-high' : (risk === 'Medium' ? 'risk-medium' : (risk === 'Low' ? 'risk-low' : 'risk-unknown'));
+        row.setAttribute('data-paperid', p.Paper_ID);
+
+        const phase5 = p.Phase5_Extraction || {};
+        const phase6 = p.Phase6_Quant_Coding || {};
+
+        const graphRaw = phase5.Graph_Used || 'Not Reported';
+        const graphNorm = graphRaw.toLowerCase().includes('yes') ? 'Yes' : 'No';
+
+        const risk = phase6.Risk_of_Evaluation_Bias || 'Unknown';
+        let riskClass = 'risk-unknown';
+        if (risk === 'High') riskClass = 'risk-high';
+        else if (risk === 'Medium') riskClass = 'risk-medium';
+        else if (risk === 'Low') riskClass = 'risk-low';
+
         row.innerHTML = `
-            <td>${p.Paper_ID}</td>
-            <td>${p.Title}</td>
-            <td>${p.Year}</td>
-            <td>${p.Venue}</td>
-            <td>${p.Phase5_Extraction.Security_Domain || 'N/A'}</td>
-            <td>${p.Phase5_Extraction.Task_Type || 'N/A'}</td>
-            <td>${p.Phase5_Extraction.Graph_Used === 'Yes' ? '✅' : '❌'}</td>
-            <td><span class="badge-${p.Phase6_Quant_Coding.Has_Explicit_Leakage_Control === 'Yes' ? 'yes' : (p.Phase6_Quant_Coding.Has_Explicit_Leakage_Control === 'No' ? 'no' : 'unknown')}">${p.Phase6_Quant_Coding.Has_Explicit_Leakage_Control || 'Unknown'}</span></td>
-            <td><span class="badge-${p.Phase6_Quant_Coding.Has_Temporal_Evaluation === 'Yes' ? 'yes' : 'no'}">${p.Phase6_Quant_Coding.Has_Temporal_Evaluation || 'No'}</span></td>
-            <td><span class="badge-${p.Phase6_Quant_Coding.Has_Entity_Decontamination === 'Yes' ? 'yes' : (p.Phase6_Quant_Coding.Has_Entity_Decontamination === 'No' ? 'no' : 'unknown')}">${p.Phase6_Quant_Coding.Has_Entity_Decontamination || 'Unknown'}</span></td>
-            <td><span class="badge-${p.Phase6_Quant_Coding.Reports_Split_Details === 'Yes' ? 'yes' : 'no'}">${p.Phase6_Quant_Coding.Reports_Split_Details || 'No'}</span></td>
-            <td><span class="badge-${p.Phase6_Quant_Coding.Reports_Sampling_Details === 'Yes' ? 'yes' : 'no'}">${p.Phase6_Quant_Coding.Reports_Sampling_Details || 'No'}</span></td>
+            <td>${p.Paper_ID || ''}</td>
+            <td>${p.Title || ''}</td>
+            <td>${p.Year || ''}</td>
+            <td>${p.Venue || ''}</td>
+            <td>${phase5.Security_Domain || ''}</td>
+            <td>${phase5.Task_Type || ''}</td>
+            <td><span class="badge badge-${graphNorm === 'Yes' ? 'yes' : 'no'}">${graphNorm}</span></td>
+            <td><span class="badge badge-${phase6.Has_Explicit_Leakage_Control === 'Yes' ? 'yes' : (phase6.Has_Explicit_Leakage_Control === 'No' ? 'no' : 'unknown')}">${phase6.Has_Explicit_Leakage_Control || 'Unknown'}</span></td>
+            <td><span class="badge badge-${phase6.Has_Temporal_Evaluation === 'Yes' ? 'yes' : 'no'}">${phase6.Has_Temporal_Evaluation || 'No'}</span></td>
+            <td><span class="badge badge-${phase6.Has_Entity_Decontamination === 'Yes' ? 'yes' : (phase6.Has_Entity_Decontamination === 'No' ? 'no' : 'unknown')}">${phase6.Has_Entity_Decontamination || 'Unknown'}</span></td>
+            <td><span class="badge badge-${phase6.Reports_Split_Details === 'Yes' ? 'yes' : 'no'}">${phase6.Reports_Split_Details || 'No'}</span></td>
+            <td><span class="badge badge-${phase6.Reports_Sampling_Details === 'Yes' ? 'yes' : 'no'}">${phase6.Reports_Sampling_Details || 'No'}</span></td>
             <td><span class="${riskClass}">${risk}</span></td>
         `;
+        row.addEventListener('click', () => showModal(p));
         tbody.appendChild(row);
     });
 }
 
-// Sorting logic (simplified - just for demo)
-document.querySelectorAll('th[data-sort]').forEach(th => {
-    th.addEventListener('click', () => {
-        const col = th.dataset.sort;
-        // simple sort by string/number
-        filteredData.sort((a, b) => {
-            let av, bv;
-            if (col === 'id') { av = a.Paper_ID; bv = b.Paper_ID; }
-            else if (col === 'title') { av = a.Title; bv = b.Title; }
-            else if (col === 'year') { av = parseInt(a.Year); bv = parseInt(b.Year); }
-            else if (col === 'venue') { av = a.Venue; bv = b.Venue; }
-            else if (col === 'domain') { av = a.Phase5_Extraction.Security_Domain || ''; bv = b.Phase5_Extraction.Security_Domain || ''; }
-            else if (col === 'task') { av = a.Phase5_Extraction.Task_Type || ''; bv = b.Phase5_Extraction.Task_Type || ''; }
-            else if (col === 'graph') { av = a.Phase5_Extraction.Graph_Used || ''; bv = b.Phase5_Extraction.Graph_Used || ''; }
-            else if (col === 'leakage') { av = a.Phase6_Quant_Coding.Has_Explicit_Leakage_Control || ''; bv = b.Phase6_Quant_Coding.Has_Explicit_Leakage_Control || ''; }
-            else if (col === 'temporal') { av = a.Phase6_Quant_Coding.Has_Temporal_Evaluation || ''; bv = b.Phase6_Quant_Coding.Has_Temporal_Evaluation || ''; }
-            else if (col === 'entity') { av = a.Phase6_Quant_Coding.Has_Entity_Decontamination || ''; bv = b.Phase6_Quant_Coding.Has_Entity_Decontamination || ''; }
-            else if (col === 'split') { av = a.Phase6_Quant_Coding.Reports_Split_Details || ''; bv = b.Phase6_Quant_Coding.Reports_Split_Details || ''; }
-            else if (col === 'sampling') { av = a.Phase6_Quant_Coding.Reports_Sampling_Details || ''; bv = b.Phase6_Quant_Coding.Reports_Sampling_Details || ''; }
-            else if (col === 'risk') { av = a.Phase6_Quant_Coding.Risk_of_Evaluation_Bias || ''; bv = b.Phase6_Quant_Coding.Risk_of_Evaluation_Bias || ''; }
-            if (typeof av === 'string') av = av.toLowerCase();
-            if (typeof bv === 'string') bv = bv.toLowerCase();
-            if (av < bv) return -1;
-            if (av > bv) return 1;
-            return 0;
-        });
-        renderTable(filteredData);
-    });
+// Modal display
+function showModal(paper) {
+    const p5 = paper.Phase5_Extraction || {};
+    const p6 = paper.Phase6_Quant_Coding || {};
+    const p7 = paper.Phase7_Preliminary_Findings_perPaper || {};
+    const p8 = paper.Phase8_Gaps_and_FutureWork_perPaper || {};
+
+    document.getElementById('modalTitle').innerText = paper.Title || 'Untitled';
+    document.getElementById('modalPaperId').innerText = paper.Paper_ID || '';
+
+    // Phase5
+    document.getElementById('modalDomain').innerText = p5.Security_Domain || 'Not Reported';
+    document.getElementById('modalTask').innerText = p5.Task_Type || 'Not Reported';
+    document.getElementById('modalThreat').innerText = p5.Threat_Model_or_Attack_Type || 'Not Reported';
+    document.getElementById('modalGraph').innerText = p5.Graph_Used || 'Not Reported';
+    document.getElementById('modalGraphType').innerText = p5.Graph_Type || 'Not Reported';
+    document.getElementById('modalDynamics').innerText = p5.Graph_Dynamics || 'Not Reported';
+    document.getElementById('modalHetero').innerText = p5.Heterogeneous || 'Not Reported';
+    document.getElementById('modalLearning').innerText = p5.Learning_Setup || 'Not Reported';
+    document.getElementById('modalInductive').innerText = p5.Inductive_or_Transductive || 'Not Reported';
+
+    // Phase6
+    document.getElementById('modalLeakage').innerText = p6.Has_Explicit_Leakage_Control || 'Unknown';
+    document.getElementById('modalTemporal').innerText = p6.Has_Temporal_Evaluation || 'Unknown';
+    document.getElementById('modalEntity').innerText = p6.Has_Entity_Decontamination || 'Unknown';
+    document.getElementById('modalSplit').innerText = p6.Reports_Split_Details || 'Unknown';
+    document.getElementById('modalSampling').innerText = p6.Reports_Sampling_Details || 'Unknown';
+    document.getElementById('modalRisk').innerText = p6.Risk_of_Evaluation_Bias || 'Unknown';
+    document.getElementById('modalRationale').innerText = p6.Risk_Rationale_Short || 'Not provided';
+
+    // Phase7
+    const findingsList = document.getElementById('modalFindings');
+    findingsList.innerHTML = '';
+    if (p7.Key_Findings_1) findingsList.innerHTML += `<li>${p7.Key_Findings_1}</li>`;
+    if (p7.Key_Findings_2) findingsList.innerHTML += `<li>${p7.Key_Findings_2}</li>`;
+    if (p7.Key_Findings_3) findingsList.innerHTML += `<li>${p7.Key_Findings_3}</li>`;
+    if (findingsList.children.length === 0) findingsList.innerHTML = '<li>No key findings reported</li>';
+    document.getElementById('modalEvalObs').innerText = p7.Evaluation_Bias_Observation || 'Not reported';
+
+    // Phase8
+    let gapText = Array.isArray(p8.Gap_Statements) ? p8.Gap_Statements.join('; ') : (p8.Gap_Statements || 'Not reported');
+    let futureText = Array.isArray(p8.Future_Work_Suggestions) ? p8.Future_Work_Suggestions.join('; ') : (p8.Future_Work_Suggestions || 'Not reported');
+    document.getElementById('modalGaps').innerText = gapText;
+    document.getElementById('modalFuture').innerText = futureText;
+
+    let thesisSupport = '';
+    if (p8.Supports_Leakage_aware_Strategic_Sampling) thesisSupport += `Leakage sampling: ${p8.Supports_Leakage_aware_Strategic_Sampling.Support_Level} – ${p8.Supports_Leakage_aware_Strategic_Sampling.How_it_supports || ''} `;
+    if (p8.Supports_Intrinsic_Explainable_Dynamic_Hetero_Graph) thesisSupport += `Explainable graph: ${p8.Supports_Intrinsic_Explainable_Dynamic_Hetero_Graph.Support_Level} – ${p8.Supports_Intrinsic_Explainable_Dynamic_Hetero_Graph.How_it_supports || ''}`;
+    document.getElementById('modalThesis').innerText = thesisSupport || 'Not discussed';
+
+    document.getElementById('modalFilename').innerText = paper.Filename || '';
+
+    // Show modal
+    document.getElementById('paperModal').style.display = 'block';
+}
+
+// Close modal
+document.getElementById('closeModalBtn').addEventListener('click', () => {
+    document.getElementById('paperModal').style.display = 'none';
+});
+window.addEventListener('click', (e) => {
+    const modal = document.getElementById('paperModal');
+    if (e.target === modal) modal.style.display = 'none';
 });
 
-// Filtering (basic)
-document.getElementById('applyFilters').addEventListener('click', () => {
+// Filtering
+function applyFilters() {
     const yearFrom = document.getElementById('filterYearFrom').value;
     const yearTo = document.getElementById('filterYearTo').value;
     const risk = document.getElementById('filterRisk').value;
@@ -2352,25 +632,29 @@ document.getElementById('applyFilters').addEventListener('click', () => {
     const temporal = document.getElementById('filterTemporal').value;
     const entity = document.getElementById('filterEntity').value;
 
-    filteredData = papersData.filter(p => {
-        const y = parseInt(p.Year);
-        if (yearFrom && y < parseInt(yearFrom)) return false;
-        if (yearTo && y > parseInt(yearTo)) return false;
-        if (risk !== 'all' && p.Phase6_Quant_Coding.Risk_of_Evaluation_Bias !== risk) return false;
-        if (graph !== 'all') {
-            const g = p.Phase5_Extraction.Graph_Used;
-            if (graph === 'Yes' && !(g && g.toLowerCase().includes('yes'))) return false;
-            if (graph === 'No' && (g && g.toLowerCase().includes('yes'))) return false;
-        }
-        if (leakage !== 'all' && p.Phase6_Quant_Coding.Has_Explicit_Leakage_Control !== leakage) return false;
-        if (temporal !== 'all' && p.Phase6_Quant_Coding.Has_Temporal_Evaluation !== temporal) return false;
-        if (entity !== 'all' && p.Phase6_Quant_Coding.Has_Entity_Decontamination !== entity) return false;
+    filteredPapers = allPapers.filter(p => {
+        const y = parseInt(p.Year, 10);
+        if (yearFrom && y < parseInt(yearFrom,10)) return false;
+        if (yearTo && y > parseInt(yearTo,10)) return false;
+
+        const p6 = p.Phase6_Quant_Coding || {};
+        if (risk !== 'all' && p6.Risk_of_Evaluation_Bias !== risk) return false;
+
+        const graphUsed = p.Phase5_Extraction?.Graph_Used || '';
+        if (graph === 'Yes' && !graphUsed.toLowerCase().includes('yes')) return false;
+        if (graph === 'No' && graphUsed.toLowerCase().includes('yes')) return false;
+
+        if (leakage !== 'all' && p6.Has_Explicit_Leakage_Control !== leakage) return false;
+        if (temporal !== 'all' && p6.Has_Temporal_Evaluation !== temporal) return false;
+        if (entity !== 'all' && p6.Has_Entity_Decontamination !== entity) return false;
+
         return true;
     });
-    renderTable(filteredData);
-    document.getElementById('totalCount').innerText = filteredData.length;
-});
+    renderTable(filteredPapers);
+    document.getElementById('displayCount').innerText = filteredPapers.length;
+}
 
+document.getElementById('applyFilters').addEventListener('click', applyFilters);
 document.getElementById('clearFilters').addEventListener('click', () => {
     document.getElementById('filterYearFrom').value = '';
     document.getElementById('filterYearTo').value = '';
@@ -2379,9 +663,37 @@ document.getElementById('clearFilters').addEventListener('click', () => {
     document.getElementById('filterLeakage').value = 'all';
     document.getElementById('filterTemporal').value = 'all';
     document.getElementById('filterEntity').value = 'all';
-    filteredData = [...papersData];
-    renderTable(filteredData);
-    document.getElementById('totalCount').innerText = filteredData.length;
+    filteredPapers = [...allPapers];
+    renderTable(filteredPapers);
+    document.getElementById('displayCount').innerText = filteredPapers.length;
+});
+
+// Simple sort on header (client side)
+document.querySelectorAll('th[data-sort]').forEach(th => {
+    th.addEventListener('click', () => {
+        const col = th.dataset.sort;
+        filteredPapers.sort((a,b) => {
+            let av, bv;
+            if (col === 'id') { av = a.Paper_ID || ''; bv = b.Paper_ID || ''; }
+            else if (col === 'title') { av = a.Title || ''; bv = b.Title || ''; }
+            else if (col === 'year') { av = parseInt(a.Year) || 0; bv = parseInt(b.Year) || 0; }
+            else if (col === 'venue') { av = a.Venue || ''; bv = b.Venue || ''; }
+            else if (col === 'domain') { av = a.Phase5_Extraction?.Security_Domain || ''; bv = b.Phase5_Extraction?.Security_Domain || ''; }
+            else if (col === 'task') { av = a.Phase5_Extraction?.Task_Type || ''; bv = b.Phase5_Extraction?.Task_Type || ''; }
+            else if (col === 'graph') { av = a.Phase5_Extraction?.Graph_Used || ''; bv = b.Phase5_Extraction?.Graph_Used || ''; }
+            else if (col === 'leakage') { av = a.Phase6_Quant_Coding?.Has_Explicit_Leakage_Control || ''; bv = b.Phase6_Quant_Coding?.Has_Explicit_Leakage_Control || ''; }
+            else if (col === 'temporal') { av = a.Phase6_Quant_Coding?.Has_Temporal_Evaluation || ''; bv = b.Phase6_Quant_Coding?.Has_Temporal_Evaluation || ''; }
+            else if (col === 'entity') { av = a.Phase6_Quant_Coding?.Has_Entity_Decontamination || ''; bv = b.Phase6_Quant_Coding?.Has_Entity_Decontamination || ''; }
+            else if (col === 'split') { av = a.Phase6_Quant_Coding?.Reports_Split_Details || ''; bv = b.Phase6_Quant_Coding?.Reports_Split_Details || ''; }
+            else if (col === 'sampling') { av = a.Phase6_Quant_Coding?.Reports_Sampling_Details || ''; bv = b.Phase6_Quant_Coding?.Reports_Sampling_Details || ''; }
+            else if (col === 'risk') { av = a.Phase6_Quant_Coding?.Risk_of_Evaluation_Bias || ''; bv = b.Phase6_Quant_Coding?.Risk_of_Evaluation_Bias || ''; }
+
+            if (typeof av === 'string') av = av.toLowerCase();
+            if (typeof bv === 'string') bv = bv.toLowerCase();
+            return av < bv ? -1 : av > bv ? 1 : 0;
+        });
+        renderTable(filteredPapers);
+    });
 });
 </script>
 </body>
